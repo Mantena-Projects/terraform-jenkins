@@ -15,7 +15,7 @@ pipeline {
        steps{
         // sh 'dir ("terraform")'
          sh 'pwd; terraform init'
-         //sh "pwd;cd terraform/; terraform plan -out tfplan"
+         sh "pwd; terraform plan -out tfplan"
          //sh 'pwd;cd terraform/; terraform show -no-color tfplan > tfplan.txt'
        }
       }
@@ -38,7 +38,7 @@ pipeline {
 
    stage('apply'){
      steps{
-        sh "pwd;cd terraform/; terraform apply -input=false tfplan"
+        sh "pwd; terraform apply -input=false tfplan"
       }
     }
    }
