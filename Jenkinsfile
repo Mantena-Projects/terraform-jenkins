@@ -13,14 +13,14 @@ pipeline {
     
     stage('plan'){
        steps{
-         sh 'dir ("terraform")'
-         sh 'pwd;cd terraform/; terraform init'
-         sh "pwd;cd terraform/; terraform plan -out tfplan"
-         sh 'pwd;cd terraform/; terraform show -no-color tfplan > tfplan.txt'
+        // sh 'dir ("terraform")'
+         sh 'pwd; terraform init'
+         //sh "pwd;cd terraform/; terraform plan -out tfplan"
+         //sh 'pwd;cd terraform/; terraform show -no-color tfplan > tfplan.txt'
        }
       }
    
-   stage('Approval'){
+   /*stage('Approval'){
         when{
           not {
             equals expected: true, actual: params.autoApprove
@@ -34,7 +34,7 @@ pipeline {
          }
        }
     
-      }  
+      } */ 
 
    stage('apply'){
      steps{
