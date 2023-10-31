@@ -10,16 +10,16 @@ pipeline {
 
   agent any 
     stages {
-      stage('checkout'){
-        steps {
-         script{
-           dir("terraform")
-           {
-             git "https://github.com/Mantena-Projects/terraform-jenkins.git"
-           }
-        }
-     }
-    }
+     # stage('checkout'){
+        #steps {
+         #script{
+          # dir("terraform")
+           #{
+           #  git "https://github.com/Mantena-Projects/terraform-jenkins.git"
+           #}
+        #}
+     #}
+    #}
     
     stage('plan'){
        steps{
