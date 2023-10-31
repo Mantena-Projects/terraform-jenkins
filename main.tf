@@ -1,11 +1,11 @@
 # Specify the provider (in this case, AWS)
 provider "aws" {
-  region = "us-west-2"
+  region = "us-east-1"
 }
 
 # Define an AWS EC2 instance
 resource "aws_instance" "example" {
-  ami           = "ami-0c55b159cbfafe1f0"
+  ami           = "ami-06aa3f7caf3a30282"
   instance_type = "t2.micro"
 }
 
