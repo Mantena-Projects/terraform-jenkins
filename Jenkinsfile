@@ -10,19 +10,10 @@ pipeline {
 
   agent any 
     stages {
-     # stage('checkout'){
-        #steps {
-         #script{
-          # dir("terraform")
-           #{
-           #  git "https://github.com/Mantena-Projects/terraform-jenkins.git"
-           #}
-        #}
-     #}
-    #}
     
     stage('plan'){
        steps{
+         sh 'dir ("terraform")'
          sh 'pwd;cd terraform/; terraform init'
          sh "pwd;cd terraform/; terraform plan -out tfplan"
          sh 'pwd;cd terraform/; terraform show -no-color tfplan > tfplan.txt'
