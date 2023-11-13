@@ -4,8 +4,7 @@ import boto3
 file_path = 'output.txt'  # Replace with your file path
 with open(file_path, 'r') as file:
     lines = file.readlines()
-    line=lines.strip()
-    print(line)
+    print(lines)
 
 # Iterate over lines in the file
 #for line in lines:
