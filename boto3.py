@@ -7,5 +7,4 @@ with open(file_path, 'r') as file:
 
 # Iterate over lines in the file
 for line in lines:
-    valid_line = line.strip() 
-    print(valid_line)
+    print(line)
