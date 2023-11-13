@@ -38,6 +38,7 @@ pipeline {
    stage('apply'){
      steps{
         sh "pwd; terraform apply -input=false tfplan"
+        sh "terraform output > output.txt"
       }
     }
    }
