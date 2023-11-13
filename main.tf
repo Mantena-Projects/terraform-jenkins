@@ -7,10 +7,17 @@ provider "aws" {
 resource "aws_instance" "example" {
   ami           = "ami-06aa3f7caf3a30282"
   instance_type = "t2.micro"
-  count=2
+}
+
+resource "aws_instance" "example1" {
+  ami           = "ami-06aa3f7caf3a30282"
+  instance_type = "t2.micro"
 }
 
 # Output the public IP address of the created instance
 output "public_ip" {
   value = aws_instance.example.public_ip
+}
+output "public_ip" {
+  value = aws_instance.example1.public_ip
 }
