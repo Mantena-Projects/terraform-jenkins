@@ -18,6 +18,6 @@ resource "aws_instance" "example1" {
 output "public_ip" {
   value = aws_instance.example.public_ip
 }
-output "public_ip" {
+output "public_ip1" {
   value = aws_instance.example1.public_ip
 }
