@@ -41,5 +41,10 @@ pipeline {
         sh "terraform output > output.txt"
       }
     }
+   stage('apply'){
+     steps{
+        sh "python3 boto3.py"
+      }
+    }
    }
 }
