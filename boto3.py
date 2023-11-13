@@ -3,7 +3,7 @@ import boto3
 # Read the text file
 file_path = 'output.txt'  # Replace with your file path
 with open(file_path, 'r') as file:
-    lines = file.readline().strip()
+    lines = file.readlines().strip()
     print(lines)
 
 # Iterate over lines in the file
