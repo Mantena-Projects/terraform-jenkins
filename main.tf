@@ -7,6 +7,7 @@ provider "aws" {
 resource "aws_instance" "example" {
   ami           = "ami-06aa3f7caf3a30282"
   instance_type = "t2.micro"
+  count=2
 }
 
 # Output the public IP address of the created instance
