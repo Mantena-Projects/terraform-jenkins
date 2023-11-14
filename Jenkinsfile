@@ -49,8 +49,8 @@ pipeline {
 
    stage('files-upload'){
      steps{
-        sh "chmod +x inventory.ini; mv inventory.ini /ansible"
-        sh "chmod +x private_key.pem; mv private_key.pem /ansible"
+        sh "chmod +x inventory.ini; sudo mv inventory.ini /ansible"
+        sh "chmod +x private_key.pem; sudo mv private_key.pem /ansible"
       }
     }
    }
