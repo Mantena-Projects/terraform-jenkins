@@ -9,5 +9,5 @@ for line in lines:
     # Use strip to remove leading and trailing whitespaces
      original_line = line 
      cleaned_line = line.strip()
-     print("original line is:'{original_line}'")
-     print("cleaned line is:'{cleaned_line}'")
+     print(f"original line is:'{original_line}'")
+     print(f"cleaned line is:'{cleaned_line}'")
