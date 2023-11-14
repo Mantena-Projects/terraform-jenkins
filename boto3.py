@@ -7,5 +7,7 @@ with open(file_path, 'r') as file:
 
 for line in lines:
     # Use strip to remove leading and trailing whitespaces
-    #cleaned_line = line.strip()
-    print(line)
+     original_line = line 
+     cleaned_line = line.strip()
+     print(original_line)
+     print(cleaned_line)
