@@ -6,9 +6,6 @@ pipeline {
   environment {
        AWS_ACCESS_KEY = credentials('AWS_ACCESS_KEY')
        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-       ANSIBLE_DIRECTORY = "/ansible"
-       INVENTORY_FILE_PATH = "${WORKSPACE}/inventory.ini"
-       PRIVATE_KEY_PATH = "${WORKSPACE}/private_key.pem"
     }
 
   agent any 
@@ -52,10 +49,13 @@ pipeline {
 
    stage('move-files') {
       steps {
-         script {
-                   sh "sudo su -"
-                   sh "mv ${INVENTORY_FILE_PATH} ${ANSIBLE_DIRECTORY}"
-                   sh "mv ${PRIVATE_KEY_PATH} ${ANSIBLE_DIRECTORY}"
+             script {
+                    // Source and destination paths
+                    def sourceFile = "inventory.ini"
+                    def destinationDir = "/ansible"
+
+                    // Move the file using 'sh' step
+                    sh "mv ${sourceFile} ${destinationDir}"
                 }
             }
         }
