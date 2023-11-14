@@ -16,7 +16,7 @@ for line in lines:
         cleaned_ips.append(ip_address)
 
 # Now, cleaned_ips contains the extracted IP addresses without "public_ip ="
-   print("Extracted IP Addresses:")
-   for ip in cleaned_ips:
-      print(ip)
+print("Extracted IP Addresses:")
+for ip in cleaned_ips:
+    print(ip)
     
