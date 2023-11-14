@@ -7,8 +7,8 @@ pipeline {
        AWS_ACCESS_KEY = credentials('AWS_ACCESS_KEY')
        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
        ANSIBLE_DIRECTORY = "/ansible"
-       INVENTORY_FILE_PATH = "${WORKSPACE}/Terraform_Ansible/inventory.ini"
-       PRIVATE_KEY_PATH = "${WORKSPACE}/Terraform_Ansible/private_key.pem"
+       INVENTORY_FILE_PATH = "${WORKSPACE}/inventory.ini"
+       PRIVATE_KEY_PATH = "${WORKSPACE}/private_key.pem"
     }
 
   agent any 
