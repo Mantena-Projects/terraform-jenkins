@@ -10,7 +10,7 @@ for line in lines:
     print(cleaned_line)
 
 
-if cleaned_line.startswith("):
+if cleaned_line.startswith("public_ip ="):
         # Split the line to extract the IP address
         ip_address = cleaned_line.split('"')[1]
         cleaned_ips.append(ip_address)
