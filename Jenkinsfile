@@ -49,8 +49,18 @@ pipeline {
 
    stage('files-upload'){
      steps{
-        sh "chmod +x inventory.ini; sudo mv inventory.ini /ansible"
-        sh "chmod +x private_key.pem; sudo mv private_key.pem /ansible"
+       script {
+                    // Define source and destination paths
+                    def inventorySource = "${WORKSPACE}/inventory.ini"
+                    def keySource = "${WORKSPACE}/private_key.pem"
+                    def ansibleDirectory = "/ansible"
+         
+                    // Move the inventory file
+                    sh "sudo mv ${inventorySource} ${ansibleDirectory}"
+
+                    // Move the private key file
+                    sh "sudo mv ${keySource} ${ansibleDirectory}"
+                }
       }
     }
    }
