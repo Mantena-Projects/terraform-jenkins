@@ -6,11 +6,8 @@ pipeline {
   environment {
        AWS_ACCESS_KEY = credentials('AWS_ACCESS_KEY')
        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+       ANSIBLE_DIRECTORY = "/ansible"
    }
-
-  environment {
-        ANSIBLE_DIRECTORY = "/ansible"
-    }
 
   agent any 
     stages {
