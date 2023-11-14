@@ -18,5 +18,16 @@ for line in lines:
         matched_ips.append(ip_address)
 
 # Now, matched_ips contains the extracted IP addresses
+inventory_content="[ec2_instances]\n"
+
 for ip in matched_ips:
     print(ip)
+    for each_ip in ip:
+        inventory_content += f"ansible_host={each_ip} ansible_user=ubuntu\n"
+
+with open('inventory.ini','w') as file:
+   file.write(inventory_content)
+
+print("inventory.ini created successfully!!!")
+        
+
