@@ -18,6 +18,5 @@ for line in lines:
         matched_ips.append(ip_address)
 
 # Now, matched_ips contains the extracted IP addresses
-print("Matched IP Addresses:")
 for ip in matched_ips:
     print(ip)
