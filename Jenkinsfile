@@ -8,6 +8,10 @@ pipeline {
        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
    }
 
+  environment {
+        ANSIBLE_DIRECTORY = "/ansible"
+    }
+
   agent any 
     stages {
     
@@ -50,16 +54,13 @@ pipeline {
    stage('files-upload'){
      steps{
        script {
-                    // Define source and destination paths
-                    def inventorySource = "${WORKSPACE}/inventory.ini"
-                    def keySource = "${WORKSPACE}/private_key.pem"
-                    def ansibleDirectory = "/ansible"
-         
-                    // Move the inventory file
-                    sh "sudo mv ${inventorySource} ${ansibleDirectory}"
-
-                    // Move the private key file
-                    sh "sudo mv ${keySource} ${ansibleDirectory}"
+                   withCredentials([
+                        file(credentialsId: 'inventory.ini', variable: 'INVENTORY_FILE'),
+                        file(credentialsId: 'private_key.pem', variable: 'KEY_FILE')
+                    ]) {
+                        sh "mv \${INVENTORY_FILE} \${ANSIBLE_DIRECTORY}"
+                        sh "mv \${KEY_FILE} \${ANSIBLE_DIRECTORY}"
+                    }
                 }
       }
     }
