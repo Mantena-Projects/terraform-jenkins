@@ -55,7 +55,7 @@ pipeline {
                     def destinationDir = "/ansible"
 
                     // Move the file using 'sh' step
-                    sh "mv ${sourceFile} ${destinationDir}"
+                    sh "sudo cp ${sourceFile} ${destinationDir}"
                 }
             }
         }
