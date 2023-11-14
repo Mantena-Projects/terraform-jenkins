@@ -6,7 +6,9 @@ pipeline {
   environment {
        AWS_ACCESS_KEY = credentials('AWS_ACCESS_KEY')
        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+       ANSIBLE_DIRECTORY = "/ansible"
        INVENTORY_FILE_PATH = "${WORKSPACE}/Terraform_Ansible/inventory.ini"
+       PRIVATE_KEY_PATH = "${WORKSPACE}/Terraform_Ansible/private_key.pem"
     }
 
   agent any 
@@ -48,10 +50,11 @@ pipeline {
       }
     }
 
-   stage('Print Inventory Path') {
+   stage('move-files') {
       steps {
          script {
-                    echo "Inventory File Path: ${INVENTORY_FILE_PATH}"
+                   sh "mv ${INVENTORY_FILE_PATH} ${ANSIBLE_DIRECTORY}"
+                   sh "mv ${PRIVATE_KEY_PATH} ${ANSIBLE_DIRECTORY}"
                 }
             }
         }
