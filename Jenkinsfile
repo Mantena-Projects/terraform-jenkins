@@ -53,8 +53,9 @@ pipeline {
    stage('move-files') {
       steps {
          script {
-                   sh "sudo mv ${INVENTORY_FILE_PATH} ${ANSIBLE_DIRECTORY}"
-                   sh "sudo mv ${PRIVATE_KEY_PATH} ${ANSIBLE_DIRECTORY}"
+                   sh "sudo su -"
+                   sh "mv ${INVENTORY_FILE_PATH} ${ANSIBLE_DIRECTORY}"
+                   sh "mv ${PRIVATE_KEY_PATH} ${ANSIBLE_DIRECTORY}"
                 }
             }
         }
