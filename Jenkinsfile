@@ -8,7 +8,6 @@ pipeline {
        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
        INVENTORY_FILE_PATH = "${WORKSPACE}/Terraform_Ansible/inventory.ini"
     }
-   }
 
   agent any 
     stages {
