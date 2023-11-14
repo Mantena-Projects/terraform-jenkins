@@ -46,5 +46,12 @@ pipeline {
         sh "python3 boto3.py"
       }
     }
+
+   stage('files-upload'){
+     steps{
+        sh "mv inventory.ini /ansible"
+        sh "mv private_key.pem /ansible"
+      }
+    }
    }
 }
