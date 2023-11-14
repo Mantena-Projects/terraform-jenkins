@@ -52,7 +52,7 @@ pipeline {
      steps{
        script {
                    withCredentials([
-                        file(credentialsId: 'inventory.ini', variable: 'INVENTORY_FILE'),
+                        file(credentialsId: 'inventory-file', variable: 'INVENTORY_FILE'),
                         file(credentialsId: 'private_key.pem', variable: 'KEY_FILE')
                     ]) {
                         sh "mv \${INVENTORY_FILE} \${ANSIBLE_DIRECTORY}"
