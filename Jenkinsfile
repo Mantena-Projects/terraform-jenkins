@@ -57,7 +57,7 @@ pipeline {
                     // Use the 'withCredentials' step to securely handle credentials
                     withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
                         // Move the file using 'sh' step
-                        sh "echo \$sudoPassword | sudo mv ${sourceFile} ${destinationDir}"
+                        sh "echo \$sudoPassword | sudo -A mv ${sourceFile} ${destinationDir}"
 
                         // You can directly use sudoUser and sudoPassword within this block
                         echo "Username: ${sudoUser}"
