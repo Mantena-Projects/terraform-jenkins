@@ -55,8 +55,7 @@ pipeline {
                     def destinationDir = "/ansible"
 
                     // Move the file using 'sh' step
-                    sh 'echo ubuntu | sudo -S mv ${sourceFile} /ansible'
-                    sh "sudo mv ${sourceFile} ${destinationDir}"
+                    sh "echo ubuntu | sudo -S mv ${sourceFile} ${destinationDir}"
                 }
             }
         }
