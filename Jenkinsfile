@@ -54,8 +54,18 @@ pipeline {
                     def sourceFile = "inventory.ini"
                     def destinationDir = "/ansible"
 
-                    // Move the file using 'sh' step
-                    sh "echo padma@123 | sudo -S mv ${sourceFile} ${destinationDir}"
+                    // Use the 'withCredentials' step to securely handle credentials
+                    withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
+                        // Move the file using 'sh' step
+                        sh "echo \$sudoPassword | sudo mv ${sourceFile} ${destinationDir}"
+
+                        // You can directly use sudoUser and sudoPassword within this block
+                        echo "Username: ${sudoUser}"
+                        echo "Password: ${sudoPassword}"
+
+                        // You can perform other operations using sudoUser and sudoPassword within this block
+                        // For example, connect to a server, run commands, etc.
+                    }
                 }
             }
         }
