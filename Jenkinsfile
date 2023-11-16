@@ -50,21 +50,15 @@ pipeline {
    stage('move-files') {
       steps {
              script {
-                    // Source and destination paths
-                    def sourceFile = "inventory.ini"
-                    def destinationDir = "/ansible"
-
-                    // Use the 'withCredentials' step to securely handle credentials
                     withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
-                        // Move the file using 'sh' step
-                        sh "echo \$sudoPassword | sudo -A mv ${sourceFile} ${destinationDir}"
-
-                        // You can directly use sudoUser and sudoPassword within this block
-                        echo "Username: ${sudoUser}"
-                        echo "Password: ${sudoPassword}"
-
-                        // You can perform other operations using sudoUser and sudoPassword within this block
-                        // For example, connect to a server, run commands, etc.
+                        // Create a temporary script
+                        def scriptFile = writeFile file: 'temp_script.sh', text: "#!/bin/bash\nsudo -S mv inventory.ini /ansible"
+                        // Ensure it's executable
+                        sh "chmod +x ${scriptFile}"
+                        // Run the script with sudo
+                        sh "echo ${sudoPassword} | ${scriptFile}"
+                        // Remove the temporary script
+                        sh "rm ${scriptFile}"
                     }
                 }
             }
