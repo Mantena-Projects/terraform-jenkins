@@ -22,7 +22,7 @@ inventory_content="[ec2_instances]\n"
 
 for ip in matched_ips:
     print(ip)
-    inventory_content += f"ansible_host={ip} ansible_user=ubuntu\n"
+    inventory_content += f"ansible_host={ip} ansible_user=ubuntu ansible_ssh_private_key_file=./private_key.pem \n"
 
 with open('./ansible/inventory.ini','w') as file:
    file.write(inventory_content)
