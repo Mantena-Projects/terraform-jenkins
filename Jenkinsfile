@@ -50,21 +50,14 @@ pipeline {
    stage('move-files') {
       steps {
               script {
-                     withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
-                        // Create an expect script
-                        def expectScriptContent = """
-                        spawn sudo mv inventory.ini /ansible
-                        expect \"assword:\"
-                        send \"${sudoPassword}\\r\"
-                        expect eof
-                        """
-                        def expectScriptFile = writeFile file: "${WORKSPACE}/expect_script.exp", text: expectScriptContent
-                        // Ensure it's executable
-                        sh "chmod +x ${expectScriptFile}"
-                        // Run the expect script
-                        sh "${expectScriptFile}"
-                        // Remove the temporary script
-                        sh "rm ${expectScriptFile}"
+                    withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
+                        // Run the expect script directly
+                        sh "expect -c '
+                            spawn sudo mv inventory.ini /ansible
+                            expect \"assword:\"
+                            send \"${sudoPassword}\\r\"
+                            expect eof
+                        '"
                     }
                 }
             }
