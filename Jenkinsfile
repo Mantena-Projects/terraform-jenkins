@@ -52,17 +52,13 @@ pipeline {
               script {
                      withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
                         // Create an expect script
-                        def expectScript = """
+                        def expectScriptContent = """
                         spawn sudo mv inventory.ini /ansible
-                        expect {
-                            "assword:" {
-                                send "${sudoPassword}\\r"
-                                exp_continue
-                            }
-                            eof
-                        }
+                        expect \"assword:\"
+                        send \"${sudoPassword}\\r\"
+                        expect eof
                         """
-                        def expectScriptFile = writeFile file: "${WORKSPACE}/expect_script.exp", text: expectScript
+                        def expectScriptFile = writeFile file: "${WORKSPACE}/expect_script.exp", text: expectScriptContent
                         // Ensure it's executable
                         sh "chmod +x ${expectScriptFile}"
                         // Run the expect script
