@@ -48,8 +48,7 @@ pipeline {
     }
    stage('ansible-ping'){
      steps{
-        sh "cd /var/lib/jenkins/workspace/Terraform_Ansible/ansible"
-        sh "ansible ec2_instances -m ping"
+        sh "cd /var/lib/jenkins/workspace/Terraform_Ansible/ansible; ansible ec2_instances -m ping"
        }
      }
    }
