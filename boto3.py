@@ -28,5 +28,14 @@ with open('./ansible/inventory.ini','w') as file:
    file.write(inventory_content)
 
 print("inventory.ini created successfully!!!")
-        
 
+# Generate ansible.cfg content
+ansible_cfg_content = """
+inventory = /var/lib/jenkins/workspace/Terraform_Ansible/ansible/inventory.ini
+"""
+
+# Write ansible.cfg file
+with open('./ansible/ansible.cfg', 'w') as file:
+    file.write(ansible_cfg_content)
+
+print("ansible.cfg created successfully!!!")
