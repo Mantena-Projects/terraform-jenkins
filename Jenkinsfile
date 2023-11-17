@@ -50,14 +50,14 @@ pipeline {
    stage('move-files') {
       steps {
               script {
-                    withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
+                  withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
                         // Run the expect script directly
-                        sh "expect -c '
+                        sh """expect -c '
                             spawn sudo mv inventory.ini /ansible
-                            expect \"assword:\"
-                            send \"${sudoPassword}\\r\"
+                            expect "assword:"
+                            send "${sudoPassword}\\r"
                             expect eof
-                        '"
+                        '"""
                     }
                 }
             }
