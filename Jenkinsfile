@@ -57,8 +57,11 @@ pipeline {
                         writeFile file: scriptFile, text: scriptContent
                         // Ensure it's executable
                         sh "chmod +x ${scriptFile}"
+                        // Set SUDO_ASKPASS environment variable to an empty script
+                        writeFile file: 'empty_script.sh', text: '#!/bin/bash\nexit 0'
+                        sh "export SUDO_ASKPASS=\"${WORKSPACE}/empty_script.sh\""
                         // Run the script with sudo -A
-                        sh "echo ${sudoPassword} | SUDO_ASKPASS=\"/dev/null\" sudo -A -S ${scriptFile}"
+                        sh "sudo -A -S ${scriptFile}"
                         // Remove the temporary script
                         sh "rm ${scriptFile}"
                     }
