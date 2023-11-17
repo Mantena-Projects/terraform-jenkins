@@ -49,18 +49,26 @@ pipeline {
 
    stage('move-files') {
       steps {
-             script {
-                   withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
-                        // Create a temporary script with the sudo command
-                        def scriptContent = "#!/bin/bash\nsudo mv inventory.ini /ansible"
-                        def scriptFile = sh(script: "mktemp temp_script.XXXXXXXXXX", returnStdout: true).trim()
-                        writeFile file: scriptFile, text: scriptContent
+              script {
+                    withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
+                        // Create an expect script
+                        def expectScript = """
+                        spawn sudo mv inventory.ini /ansible
+                        expect {
+                            "assword:" {
+                                send "${sudoPassword}\\r"
+                                exp_continue
+                            }
+                            eof
+                        }
+                        """
+                        def expectScriptFile = writeFile file: 'expect_script.exp', text: expectScript
                         // Ensure it's executable
-                        sh "chmod +x ${scriptFile}"
-                        // Run the script with sudo and echo the password
-                        sh "echo ${sudoPassword} | sudo -S ${scriptFile}"
+                        sh "chmod +x ${expectScriptFile}"
+                        // Run the expect script
+                        sh "${expectScriptFile}"
                         // Remove the temporary script
-                        sh "rm ${scriptFile}"
+                        sh "rm ${expectScriptFile}"
                     }
                 }
             }
