@@ -50,7 +50,7 @@ pipeline {
    stage('move-files') {
       steps {
               script {
-                  withCredentials([usernamePassword(credentialsId: 'yourCredentialsId', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
+                  withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
                         sh "echo '${sudoPassword}' | sudo -S mv inventory.ini /ansible"
                     }
                 }
