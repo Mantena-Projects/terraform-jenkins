@@ -46,26 +46,13 @@ pipeline {
         sh "python3 boto3.py"
       }
     }
-  stage('Install Expect') {
-          steps {
-                script {
-                    // Install expect
-                    sh 'sudo apt-get update && sudo apt-get install -y expect'
-                }
-            }
-        }
 
    stage('move-files') {
       steps {
               script {
                  withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
-                        // Run the expect script directly
-                        sh """expect -c '
-                            spawn sudo mv inventory.ini /ansible
-                            expect "assword:"
-                            send "${sudoPassword}\\r"
-                            expect eof
-                        '"""
+                        // Run the sudo command with stored credentials
+                        sh "sudo -S mv inventory.ini /ansible <<< '${sudoPassword}'"
                     }
                 }
             }
