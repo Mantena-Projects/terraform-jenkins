@@ -61,7 +61,7 @@ pipeline {
                         writeFile file: 'empty_script.sh', text: '#!/bin/bash\nexit 0'
                         sh "export SUDO_ASKPASS=\"${WORKSPACE}/empty_script.sh\""
                         // Run the script with sudo -A
-                        sh "sudo -A -S ${scriptFile}"
+                        sh "sudo -A ${scriptFile}"
                         // Remove the temporary script
                         sh "rm ${scriptFile}"
                     }
