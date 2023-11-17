@@ -51,7 +51,7 @@ pipeline {
       steps {
               script {
                   withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
-                        sh "echo '${sudoPassword}' | sudo -S mv inventory.ini /ansible"
+                        sh "echo -n '${sudoPassword}' | sudo -S mv inventory.ini /ansible"
                     }
                 }
             }
