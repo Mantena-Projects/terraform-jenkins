@@ -50,14 +50,15 @@ pipeline {
    stage('move-files') {
       steps {
              script {
-                  withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
+                   withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
                         // Create a temporary script with the sudo command
                         def scriptContent = "#!/bin/bash\nsudo mv inventory.ini /ansible"
-                        def scriptFile = writeFile file: 'temp_script.sh', text: scriptContent
+                        def scriptFile = sh(script: "mktemp temp_script.XXXXXXXXXX", returnStdout: true).trim()
+                        writeFile file: scriptFile, text: scriptContent
                         // Ensure it's executable
                         sh "chmod +x ${scriptFile}"
                         // Run the script with sudo -A
-                        sh "echo ${sudoPassword} | SUDO_ASKPASS=\"${WORKSPACE}/empty_script.sh\" sudo -A -S ${scriptFile}"
+                        sh "echo ${sudoPassword} | SUDO_ASKPASS=\"/dev/null\" sudo -A -S ${scriptFile}"
                         // Remove the temporary script
                         sh "rm ${scriptFile}"
                     }
