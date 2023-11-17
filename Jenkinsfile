@@ -46,6 +46,11 @@ pipeline {
         sh "python3 boto3.py"
       }
     }
-      
+   stage('ansible-ping'){
+     steps{
+        sh "cd ./ansible"
+        sh " ansible ec2_instances -m ping"
+       }
+     }
    }
 }
