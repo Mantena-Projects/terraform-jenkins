@@ -46,15 +46,6 @@ pipeline {
         sh "python3 boto3.py"
       }
     }
-
-   stage('move-files') {
-      steps {
-              script {
-                  withCredentials([usernamePassword(credentialsId: 'UserPass', passwordVariable: 'sudoPassword', usernameVariable: 'sudoUser')]) {
-                        sh "echo -n '${sudoPassword}' | sudo -S mv inventory.ini /ansible"
-                    }
-                }
-            }
-        }
+      
    }
 }
