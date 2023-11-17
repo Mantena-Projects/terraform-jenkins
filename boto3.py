@@ -31,6 +31,7 @@ print("inventory.ini created successfully!!!")
 
 # Generate ansible.cfg content
 ansible_cfg_content = """
+[defaults]
 inventory = /var/lib/jenkins/workspace/Terraform_Ansible/ansible/inventory.ini
 """
 
