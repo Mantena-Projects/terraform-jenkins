@@ -32,6 +32,7 @@ print("inventory.ini created successfully!!!")
 ansible_cfg_content = """
 [defaults]
 inventory = /var/lib/jenkins/workspace/Terraform_Ansible/ansible/inventory.ini
+host_key_checking = False
 """
 
 # Write ansible.cfg file
