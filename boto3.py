@@ -24,7 +24,7 @@ for ip in matched_ips:
     print(ip)
     inventory_content += f"ansible_host={ip} ansible_user=ubuntu\n"
 
-with open('inventory.ini','w') as file:
+with open('./ansible/inventory.ini','w') as file:
    file.write(inventory_content)
 
 print("inventory.ini created successfully!!!")
