@@ -18,16 +18,30 @@ resource "aws_key_pair" "example" {
   public_key = tls_private_key.example.public_key_openssh
 }
 
+resource "aws_security_group" "example_sg" {
+  name        = "example_security_group"
+  description = "Allow SSH traffic"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allow SSH from all IPv4 addresses
+  }
+}
+
 # Define an AWS EC2 instance
 resource "aws_instance" "example" {
   ami           = "ami-06aa3f7caf3a30282"
   instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.example_sg.id]
   key_name      = aws_key_pair.example.key_name
 }
 
 resource "aws_instance" "example1" {
   ami           = "ami-06aa3f7caf3a30282"
   instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.example_sg.id]
   key_name      = aws_key_pair.example.key_name
 }
 
