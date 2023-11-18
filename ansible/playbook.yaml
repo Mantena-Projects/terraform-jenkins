@@ -1,49 +1,36 @@
 ---
-- name: Install Terraform and Ansible
+- name: Install Terraform
   hosts: ec2_instances
   become: true
-
   tasks:
-    - name: Check if 'apt' package manager is available
-      stat:
-        path: /usr/bin/apt
-      register: apt_available
-
-    - name: Install necessary tools for package installation
+    - name: Install required packages
       apt:
         name:
-          - unzip
           - wget
+          - curl
+          - unzip
+          - software-properties-common
+          - gnupg2
         state: present
-      when: apt_available.stat.exists
+
+    - name: Add HashiCorp GPG key
+      apt_key:
+        url: https://apt.releases.hashicorp.com/gpg
+        state: present
+
+    - name: Add HashiCorp repository
+      apt_repository:
+        repo: "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        state: present
+
+    - name: Update package list
+      apt:
+        update_cache: yes
 
     - name: Install Terraform
       apt:
-        name:
-          - unzip
-          - wget
-      register: terraform_install_result
-      when: apt_available.stat.exists and "'terraform' not in terraform_install_result.results | map(attribute='item') | list"
+        name: terraform
+        state: present
 
-    - name: Download Terraform binary
-      get_url:
-        url: https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip
-        dest: /tmp/terraform.zip
-      when: terraform_install_result.changed
-
-    - name: Unzip Terraform binary
-      ansible.builtin.unarchive:
-        src: /tmp/terraform.zip
-        dest: /usr/local/bin
-        remote_src: yes
-      when: terraform_install_result.changed
-
-    - name: Set executable permissions for Terraform
-      ansible.builtin.file:
-        path: /usr/local/bin/terraform
-        mode: '+x'
-      when: terraform_install_result.changed
-
-   - name: Debug - Run Terraform Install Commands
-     ansible.builtin.shell:
-     cmd: "apt update && apt install -y unzip wget && echo 'Terraform installed'"
+    - name: Display Terraform version
+      command: terraform -v
