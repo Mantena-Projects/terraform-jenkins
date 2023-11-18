@@ -1,6 +1,6 @@
 ---
 - name: Install Terraform
-  hosts: your_target_hosts
+  hosts: ec2_instances
   become: true
   tasks:
     - name: Install required packages
