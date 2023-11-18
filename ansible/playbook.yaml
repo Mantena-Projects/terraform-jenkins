@@ -8,10 +8,6 @@
         url: https://apt.releases.hashicorp.com/gpg
         state: present
 
-    - name: Update package list
-      apt:
-        update_cache: yes
-
     - name: Install Terraform
       apt:
         name: terraform
