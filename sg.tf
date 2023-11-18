@@ -1,5 +1,5 @@
 resource "aws_security_group" "example_sg" {
-  name        = "example_security_group"
+  name        = "example_security"
   description = "Allow all traffic from all IPv4 addresses"
 
   ingress {
