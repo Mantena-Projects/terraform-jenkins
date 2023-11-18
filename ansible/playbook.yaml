@@ -1,0 +1,50 @@
+---
+- name: Install Terraform and Ansible
+  hosts: ec2_instances
+  become: true
+
+  tasks:
+    - name: Install Terraform
+      apt:
+        name:
+          - unzip
+          - wget
+      when: "'terraform' not in installed_packages.results | map(attribute='item') | list"
+
+    - name: Download Terraform binary
+      get_url:
+        url: https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip
+        dest: /tmp/terraform.zip
+      when: "'terraform' not in installed_packages.results | map(attribute='item') | list"
+
+    - name: Unzip Terraform binary
+      ansible.builtin.unarchive:
+        src: /tmp/terraform.zip
+        dest: /usr/local/bin
+        remote_src: yes
+      when: "'terraform' not in installed_packages.results | map(attribute='item') | list"
+
+    - name: Set executable permissions for Terraform
+      ansible.builtin.file:
+        path: /usr/local/bin/terraform
+        mode: '+x'
+      when: "'terraform' not in installed_packages.results | map(attribute='item') | list"
+
+    - name: Install Ansible
+      ansible.builtin.package:
+        name:
+          - python3
+          - python3-pip
+      when: "'ansible' not in installed_packages.results | map(attribute='item') | list"
+
+    - name: Install Ansible using pip
+      ansible.builtin.pip:
+        name: ansible
+      when: "'ansible' not in installed_packages.results | map(attribute='item') | list"
+
+  handlers:
+    - name: Restart SSH service
+      ansible.builtin.service:
+        name: ssh
+        state: restarted
+
