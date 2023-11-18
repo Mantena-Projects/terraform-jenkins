@@ -44,6 +44,11 @@ resource "aws_instance" "example1" {
   vpc_security_group_ids = [aws_security_group.example_sg.id]
   key_name      = aws_key_pair.example.key_name
 }
+# Wait until the instance is in the running state before proceeding
+data "aws_instance" "example_instance_data" {
+  depends_on  = [aws_instance.example, aws_instance.example1]
+  instance_id = aws_instance.example.id
+}
 
 # Output the public IP address of the created instance
 output "public_ip" {
