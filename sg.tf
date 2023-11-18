@@ -1,12 +1,12 @@
-resource "aws_security_group" "ssh_sg" {
-  name        = "ssh_security_group"
-  description = "Allow SSH traffic"
+resource "aws_security_group" "example_sg" {
+  name        = "example_security_group"
+  description = "Allow all traffic from all IPv4 addresses"
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Allow SSH traffic from any IP address (adjust as needed)
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"  # Allow all inbound traffic
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
