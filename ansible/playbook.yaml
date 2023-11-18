@@ -44,4 +44,6 @@
         mode: '+x'
       when: terraform_install_result.changed
 
-  
+   - name: Debug - Run Terraform Install Commands
+     ansible.builtin.shell:
+     cmd: "apt update && apt install -y unzip wget && echo 'Terraform installed'"
