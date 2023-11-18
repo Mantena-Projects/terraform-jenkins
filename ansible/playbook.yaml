@@ -4,58 +4,44 @@
   become: true
 
   tasks:
-    - name: Check if 'apt' package manager is available
-      stat:
-        path: /usr/bin/apt
-      register: apt_available
-
-    - name: Install necessary tools for package installation
-      apt:
-        name:
-          - unzip
-          - wget
-        state: present
-      when: apt_available.stat.exists
-
     - name: Install Terraform
       apt:
         name:
           - unzip
           - wget
-      register: terraform_install_result
-      when: apt_available.stat.exists and "'terraform' not in terraform_install_result.results | map(attribute='item') | list"
+      when: "'terraform' not in installed_packages.results | map(attribute='item') | list"
 
     - name: Download Terraform binary
-      get_url:
+      ansible.builtin.get_url:
         url: https://releases.hashicorp.com/terraform/0.15.5/terraform_0.15.5_linux_amd64.zip
         dest: /tmp/terraform.zip
-      when: terraform_install_result.changed
+      when: "'terraform' not in installed_packages.results | map(attribute='item') | list"
 
     - name: Unzip Terraform binary
       ansible.builtin.unarchive:
         src: /tmp/terraform.zip
         dest: /usr/local/bin
         remote_src: yes
-      when: terraform_install_result.changed
+      when: "'terraform' not in installed_packages.results | map(attribute='item') | list"
 
     - name: Set executable permissions for Terraform
       ansible.builtin.file:
         path: /usr/local/bin/terraform
         mode: '+x'
-      when: terraform_install_result.changed
+      when: "'terraform' not in installed_packages.results | map(attribute='item') | list"
 
     - name: Install Ansible
       ansible.builtin.package:
         name:
           - python3
           - python3-pip
-      register: ansible_install_result
-      when: "'ansible' not in ansible_install_result.results | map(attribute='item') | list"
+      register: installed_packages
+      when: "'ansible' not in installed_packages.results | map(attribute='item') | list"
 
     - name: Install Ansible using pip
       ansible.builtin.pip:
         name: ansible
-      when: ansible_install_result.changed
+      when: "'ansible' not in installed_packages.results | map(attribute='item') | list"
 
   handlers:
     - name: Restart SSH service
