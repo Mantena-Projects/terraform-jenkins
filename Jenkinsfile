@@ -46,7 +46,7 @@ pipeline {
         sh "python3 boto3.py"
       }
     }
-   stage('ansible-ping'){
+   stage('ansible-playbook'){
      steps{
          sh "cd /var/lib/jenkins/workspace/Terraform_Ansible/ansible; ansible ec2_instances -m ping"
          sh "cd /var/lib/jenkins/workspace/Terraform_Ansible/ansible; ansible-playbook -i inventory.ini playbook.yaml"
