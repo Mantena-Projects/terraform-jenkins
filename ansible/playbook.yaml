@@ -10,7 +10,7 @@
 
     - name: Add HashiCorp repository
       apt_repository:
-        repo: "deb [arch=amd64] https://apt.releases.hashicorp.com focal main"
+        repo: "sudo deb [arch=amd64] https://apt.releases.hashicorp.com focal main"
         state: present
 
     - name: Update package list
