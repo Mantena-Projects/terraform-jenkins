@@ -15,9 +15,16 @@ resource "aws_key_pair" "example" {
   public_key = tls_private_key.example.public_key_openssh
 }
 
-provisioner "local-exec" {
+resource "null_resource" "create_private_key" {
+  triggers = {
+    key_content = tls_private_key.example.private_key_pem
+  }
+
+  # Use local-exec provisioner to create private_key.pem in the local directory
+  provisioner "local-exec" {
     command = "echo '${tls_private_key.example.private_key_pem}' > ./ansible/private_key.pem"
   }
+}
 
 # Define an AWS EC2 instance
 resource "aws_instance" "example" {
