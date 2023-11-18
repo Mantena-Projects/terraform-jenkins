@@ -1,14 +1,21 @@
 ---
-- name: Install HashiCorp repository and Terraform
+- name: Install Nginx
   hosts: ec2_instances
   become: true
   tasks:
-    - name: Add HashiCorp GPG key
-      apt_key:
-        url: https://apt.releases.hashicorp.com/gpg
+    - name: Update package list
+      apt:
+        update_cache: yes
+
+    - name: Install Nginx
+      apt:
+        name: nginx
         state: present
 
-    - name: Install Terraform
-      apt:
-        name: terraform
-        state: present
+    - name: Start Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+
