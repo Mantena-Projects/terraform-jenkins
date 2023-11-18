@@ -22,14 +22,12 @@ resource "aws_key_pair" "example" {
 resource "aws_instance" "example" {
   ami           = "ami-06aa3f7caf3a30282"
   instance_type = "t2.micro"
-  security_groups = [aws_security_group.example_sg.id]
   key_name      = aws_key_pair.example.key_name
 }
 
 resource "aws_instance" "example1" {
   ami           = "ami-06aa3f7caf3a30282"
   instance_type = "t2.micro"
-  security_groups = [aws_security_group.example_sg.id]
   key_name      = aws_key_pair.example.key_name
 }
 
