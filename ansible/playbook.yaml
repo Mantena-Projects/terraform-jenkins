@@ -1,6 +1,6 @@
 ---
 - name: Install Terraform
-  hosts: ec2_instances
+  hosts: your_target_hosts
   become: true
   tasks:
     - name: Install required packages
@@ -10,7 +10,7 @@
           - curl
           - unzip
           - software-properties-common
-          - gnupg2
+          - gpg
         state: present
 
     - name: Add HashiCorp GPG key
