@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"  # Change this to your desired AWS region
-}
-
 resource "aws_security_group" "ssh_sg" {
   name        = "ssh_security_group"
   description = "Allow SSH traffic"
