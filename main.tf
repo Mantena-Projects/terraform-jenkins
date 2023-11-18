@@ -8,27 +8,6 @@ resource "tls_private_key" "example" {
   rsa_bits  = 2048
 }
 
-resource "local_file" "private_key" {
-  content  = tls_private_key.example.private_key_pem
-  filename = "./ansible/private_key.pem"
-}
-
-resource "aws_key_pair" "example" {
-  key_name   = "example-key"
-  public_key = tls_private_key.example.public_key_openssh
-}
-
-resource "aws_security_group" "example_sg" {
-  name        = "example_security_group"
-  description = "Allow SSH traffic"
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Allow SSH from all IPv4 addresses
-  }
-}
 
 # Define an AWS EC2 instance
 resource "aws_instance" "example" {
@@ -43,11 +22,6 @@ resource "aws_instance" "example1" {
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.example_sg.id]
   key_name      = aws_key_pair.example.key_name
-}
-# Wait until the instance is in the running state before proceeding
-data "aws_instance" "example_instance_data" {
-  depends_on  = [aws_instance.example, aws_instance.example1]
-  instance_id = aws_instance.example.id
 }
 
 # Output the public IP address of the created instance
